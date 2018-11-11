@@ -15,7 +15,7 @@ node {
     }
     stage('Set Up GCloud') {
         sh 'curl https://sdk.cloud.google.com | bash > /dev/null;'
-        sh 'source $HOME/google-cloud-sdk/path.bash.inc'
+        sh 'sh $HOME/google-cloud-sdk/path.bash.inc'
         sh 'gcloud components update kubectl'
         sh 'gcloud auth activate-service-account --key-file constant-crow-222204-2b2a815bdea2.json'
         sh 'gcloud config set project constant-crow-222204'
