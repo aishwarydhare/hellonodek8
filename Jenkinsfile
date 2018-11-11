@@ -16,6 +16,7 @@ node {
     stage('Set Up GCloud') {
         sh 'rm -rf /var/lib/jenkins/google-cloud-sdk'
         sh 'curl https://sdk.cloud.google.com | bash > /dev/null;'
+        sh 'cat $HOME/google-cloud-sdk/path.bash.inc'
         sh 'sh $HOME/google-cloud-sdk/path.bash.inc'
         sh 'gcloud components update kubectl'
         sh 'gcloud auth activate-service-account --key-file constant-crow-222204-2b2a815bdea2.json'
