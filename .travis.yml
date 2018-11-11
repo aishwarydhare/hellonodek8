@@ -1,12 +1,28 @@
 sudo: required
 services:
   - docker
+env:
+  - global:
+      - SHA=$(git rev-parse HEAD)
+      - CLOUDSDK_CORE_DISABLE_PROMPTS=1
 before_install:
-  - openssl aes-256-cbc -K $encrypted_0c35eebf403c_key -iv $encrypted_0c35eebf403c_key
+  - openssl aes-256-cbc -K $encrypted_0c35eebf403c_key -iv $encrypted_0c35eebf403c_iv -in constant-crow-222204-2b2a815bdea2.json.enc -out constant-crow-222204-2b2a815bdea2.json -d
   - curl https://sdk.cloud.google.com | bash > /dev/null;
   - source $HOME/google-cloud-sdk/path.bash.inc
   - gcloud components update kubectl
   - gcloud auth activate-service-account --key-file service-accounts.json
   - gcloud config set project skilful-berm-214882
-  - gcloud container clusters get-credentials multi-cluster
+  - gcloud container clusters get-credentials standard-cluster-1
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+  - docker build -t aishwarydhare/hellonode .
+  - docker build -t aishwarydhare/helloredis -f Dockerfile.redis .
+
+script:
+  - docker run aishwarydhare/hellonode echo 1
+  - docker run aishwarydhare/hellonode echo 2
+
+deploy:
+  provider: script
+  script: bash ./deploy.sh
+  on:
+    branch: master

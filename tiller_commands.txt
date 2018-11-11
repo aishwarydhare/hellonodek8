@@ -1,0 +1,13 @@
+### starting kubectl on google cloud
+gcloud container clusters get-credentials standard-cluster-1 --zone asia-south1-a --project constant-crow-222204
+
+### installing helm
+curl https://raw.githubusercontent.com/helm/helm/master/scripts/get > get_helm.sh
+chmod 700 get_helm.sh
+./get_helm.sh
+
+
+### setting up helm-tiller service
+kubectl create serviceaccount --namespace kube-system tiller
+kubectl create clusterrolebinding tiller-cluster-rule --clusterrole=cluster-admin --serviceaccount=kube-system:tiller
+helm init --service-account tiller --upgrade 
