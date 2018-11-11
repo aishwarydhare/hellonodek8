@@ -25,6 +25,7 @@ node {
         // sh 'gcloud container clusters get-credentials standard-cluster-1'
     }
     stage('Build Docker'){
+        sh 'echo $USER'
         sh 'echo "mytempdockerpass" | docker login -u "aishwarydhare" --password-stdin'
         sh 'docker build -t aishwarydhare/hellonode .'
         sh 'docker build -t aishwarydhare/helloredis -f Dockerfile.redis .'
@@ -42,7 +43,7 @@ node {
         sh 'docker push aishwarydhare/helloredis:$SHA'
         // sh 'kubectl apply -f k8s'
         // sh 'kubectl set image deployments/node-server-deployment node-server-deployment=aishwarydhare/hellonode:$SHA'
-        // sh 'kubectl set image deployments/redis-server-deployment redis-server-deployment=aishwarydhare/hellonode:$SHA'
+        // sh 'kubectl set image deployments/redis-server-deployment redis-server-deployment=aishwarydhare/helloredis:$SHA'
     }
     stage('Clean Docker test'){
       sh 'docker stop m-node-512'
