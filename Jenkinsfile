@@ -14,15 +14,15 @@ node {
         sh 'CLOUDSDK_CORE_DISABLE_PROMPTS=1'
     }
     stage('Set Up GCloud') {
-        sh 'rm -rf /var/lib/jenkins/google-cloud-sdk'
-        sh 'curl https://sdk.cloud.google.com | bash > /dev/null;'
-        sh 'cat $HOME/google-cloud-sdk/path.bash.inc'
-        sh 'source $HOME/google-cloud-sdk/path.bash.inc'
-        sh 'gcloud components update kubectl'
-        sh 'gcloud auth activate-service-account --key-file constant-crow-222204-2b2a815bdea2.json'
-        sh 'gcloud config set project constant-crow-222204'
-        sh 'gcloud config set compute/zone asia-south1-a'
-        sh 'gcloud container clusters get-credentials standard-cluster-1'
+        // sh 'rm -rf /var/lib/jenkins/google-cloud-sdk'
+        // sh 'curl https://sdk.cloud.google.com | bash > /dev/null;'
+        // sh 'cat $HOME/google-cloud-sdk/path.bash.inc'
+        // sh 'source $HOME/google-cloud-sdk/path.bash.inc'
+        // sh 'gcloud components update kubectl'
+        // sh 'gcloud auth activate-service-account --key-file constant-crow-222204-2b2a815bdea2.json'
+        // sh 'gcloud config set project constant-crow-222204'
+        // sh 'gcloud config set compute/zone asia-south1-a'
+        // sh 'gcloud container clusters get-credentials standard-cluster-1'
     }
     stage('Build Docker'){
         sh 'echo "mytempdockerpass" | docker login -u "aishwarydhare" --password-stdin'
@@ -40,9 +40,9 @@ node {
         sh 'docker push aishwarydhare/helloredis:latest'
         sh 'docker push aishwarydhare/hellonode:$SHA'
         sh 'docker push aishwarydhare/helloredis:$SHA'
-        sh 'kubectl apply -f k8s'
-        sh 'kubectl set image deployments/node-server-deployment node-server-deployment=aishwarydhare/hellonode:$SHA'
-        sh 'kubectl set image deployments/redis-server-deployment redis-server-deployment=aishwarydhare/hellonode:$SHA'
+        // sh 'kubectl apply -f k8s'
+        // sh 'kubectl set image deployments/node-server-deployment node-server-deployment=aishwarydhare/hellonode:$SHA'
+        // sh 'kubectl set image deployments/redis-server-deployment redis-server-deployment=aishwarydhare/hellonode:$SHA'
     }
     stage('Clean Docker test'){
       sh 'docker stop m-node-512'
