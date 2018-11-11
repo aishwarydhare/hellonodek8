@@ -1,0 +1,18 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redis-server-deployment
+spec:
+  selector:
+    matchLabels:
+      component: redis-server
+  template:
+    metadata:
+      labels:
+        component: redis-server
+    spec:
+      containers:
+      - name: redis-server-deployment
+        image: aishwarydhare/helloredis
+        ports:
+        - containerPort: 6379

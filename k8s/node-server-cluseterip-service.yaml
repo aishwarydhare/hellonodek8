@@ -1,0 +1,12 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: node-server-clusterip-service
+spec:
+  type: ClusterIP
+  selector:
+    component: node-server
+  ports:
+  - port: 8086
+    targetPort: 8086
+  

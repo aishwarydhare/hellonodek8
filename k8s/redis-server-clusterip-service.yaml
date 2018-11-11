@@ -1,0 +1,10 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: redis-clusterip-service
+spec:
+  selector:
+    component: redis-server
+  ports:
+  - port: 6379
+    targetPort: 6379

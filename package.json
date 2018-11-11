@@ -1,0 +1,11 @@
+{
+  "name": "hellonode",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "redis": "~2.8.0"
+  },
+  "scripts": {
+    "start": "node server.js"
+  }
+}

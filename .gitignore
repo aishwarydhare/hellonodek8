@@ -1,0 +1,5 @@
+node_modules
+temp
+k8s-archive
+dump.rdb
+package-lock.json
