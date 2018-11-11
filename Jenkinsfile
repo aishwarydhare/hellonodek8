@@ -23,7 +23,7 @@ node {
         sh 'gcloud config set project constant-crow-222204'
         sh 'gcloud config set compute/zone asia-south1-a'
         sh 'gcloud container clusters get-credentials standard-cluster-1'
-    }
+    } 
     stage('Build Docker'){
         sh 'echo $USER'
         sh 'echo "mytempdockerpass" | docker login -u "aishwarydhare" --password-stdin'
