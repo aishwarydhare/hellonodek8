@@ -18,7 +18,7 @@ node {
         // sh 'curl https://sdk.cloud.google.com | bash > /dev/null;'
         sh 'PATH=$PATH:/home/ubuntu/google-cloud-sdk/bin/gcloud'
         sh 'export PATH'
-        sh 'gcloud components update kubectl'
+        sh '/home/ubuntu/google-cloud-sdk/bin/gcloud components update kubectl'
         sh 'gcloud auth activate-service-account --key-file constant-crow-222204-2b2a815bdea2.json'
         sh 'gcloud config set project constant-crow-222204'
         sh 'gcloud config set compute/zone asia-south1-a'
