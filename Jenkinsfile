@@ -7,7 +7,7 @@ node {
         sh 'git --version'
         echo "Branch: ${env.BRANCH_NAME}"
         sh 'docker -v'
-        sh 'printenv'
+        sh 'printenv' 
     }
     stage('Create ENV Variables') {
         sh 'SHA=$(git rev-parse HEAD)'
