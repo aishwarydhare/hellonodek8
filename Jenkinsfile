@@ -35,13 +35,15 @@ node {
         sh 'docker run --name m-node-512 aishwarydhare/hellonode echo 1'
         sh 'docker run --name m-redis-512 aishwarydhare/hellonode echo 2'
     }
-    stage('Deploy'){
+    stage('Push Fresh Docker Hub Images'){
         sh 'docker build -t aishwarydhare/hellonode:latest -t aishwarydhare/hellonode:$(git rev-parse HEAD) .'
         sh 'docker build -t aishwarydhare/helloredis:latest -t aishwarydhare/helloredis:$(git rev-parse HEAD) -f Dockerfile.redis .'
         sh 'docker push aishwarydhare/hellonode:latest'
         sh 'docker push aishwarydhare/helloredis:latest'
         sh 'docker push aishwarydhare/hellonode:$(git rev-parse HEAD)'
         sh 'docker push aishwarydhare/helloredis:$(git rev-parse HEAD)'
+    }
+    stage('Deploy To k8s'){
         sh 'kubectl apply -f k8s'
         sh 'kubectl set image deployments/node-server-deployment node-server-deployment=aishwarydhare/hellonode:$(git rev-parse HEAD)'
         sh 'kubectl set image deployments/redis-server-deployment redis-server-deployment=aishwarydhare/helloredis:$(git rev-parse HEAD)'
@@ -51,15 +53,6 @@ node {
         sh 'docker container rm m-node-512'
         sh 'docker stop m-redis-512'
         sh 'docker container rm m-redis-512'
-    }
-  }
-  catch (err) {
-    throw err
-    stage('Clean Docker test'){
-      sh 'docker stop m-node-512'
-      sh 'docker container rm m-node-512'
-      sh 'docker stop m-redis-512'
-      sh 'docker container rm m-redis-512'
     }
   }
 }
