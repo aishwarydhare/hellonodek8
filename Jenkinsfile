@@ -10,11 +10,8 @@ node {
         sh 'printenv' 
         sh 'echo $USER'
     }
-    stage('Create ENV Variables') {
-        sh 'SHA=$(git rev-parse HEAD)'
-        sh 'CLOUDSDK_CORE_DISABLE_PROMPTS=1'
-    }
     stage('Set Up GCloud') {
+        sh 'CLOUDSDK_CORE_DISABLE_PROMPTS=1'
         sh 'rm -rf /var/lib/jenkins/google-cloud-sdk'
         sh 'curl https://sdk.cloud.google.com | bash > /dev/null;'
         sh '/var/lib/jenkins/google-cloud-sdk/bin/gcloud components update kubectl'
@@ -33,6 +30,7 @@ node {
         sh 'docker run --name m-redis-512 aishwarydhare/hellonode echo 2'
     }
     stage('Deploy'){
+        sh 'SHA=$(git rev-parse HEAD)'
         sh 'docker build -t aishwarydhare/hellonode:latest -t aishwarydhare/hellonode:$SHA .'
         sh 'docker build -t aishwarydhare/helloredis:latest -t aishwarydhare/helloredis:$SHA -f Dockerfile.redis .'
         sh 'docker push aishwarydhare/hellonode:latest'
