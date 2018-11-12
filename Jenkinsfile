@@ -10,9 +10,15 @@ node {
         sh 'printenv' 
         sh 'echo $USER'
     }
+    stage('Pre Cleanup') {
+        sh 'docker stop m-node-512'
+        sh 'docker container rm m-node-512'
+        sh 'docker stop m-redis-512'
+        sh 'docker container rm m-redis-512'
+        sh 'rm -rf /var/lib/jenkins/google-cloud-sdk'
+    }
     stage('Set Up GCloud') {
         sh 'CLOUDSDK_CORE_DISABLE_PROMPTS=1'
-        sh 'rm -rf /var/lib/jenkins/google-cloud-sdk'
         sh 'curl https://sdk.cloud.google.com | bash > /dev/null;'
         sh '/var/lib/jenkins/google-cloud-sdk/bin/gcloud components update kubectl'
         sh '/var/lib/jenkins/google-cloud-sdk/bin/gcloud auth activate-service-account --key-file constant-crow-222204-2b2a815bdea2.json'
@@ -41,11 +47,11 @@ node {
         sh 'kubectl set image deployments/node-server-deployment node-server-deployment=aishwarydhare/hellonode:$SHA'
         sh 'kubectl set image deployments/redis-server-deployment redis-server-deployment=aishwarydhare/helloredis:$SHA'
     }
-    stage('Clean Docker test'){
-      sh 'docker stop m-node-512'
-      sh 'docker container rm m-node-512'
-      sh 'docker stop m-redis-512'
-      sh 'docker container rm m-redis-512'
+    stage('Post Cleanup'){
+        sh 'docker stop m-node-512'
+        sh 'docker container rm m-node-512'
+        sh 'docker stop m-redis-512'
+        sh 'docker container rm m-redis-512'
     }
   }
   catch (err) {
