@@ -17,16 +17,13 @@ node {
     stage('Set Up GCloud') {
         sh 'rm -rf /var/lib/jenkins/google-cloud-sdk'
         sh 'curl https://sdk.cloud.google.com | bash > /dev/null;'
-        sh 'PATH=$PATH:$HOME/google-cloud-sdk/bin/gcloud'
-        sh 'export PATH'
-        sh '/home/ubuntu/google-cloud-sdk/bin/gcloud components update kubectl'
-        sh 'gcloud auth activate-service-account --key-file constant-crow-222204-2b2a815bdea2.json'
-        sh 'gcloud config set project constant-crow-222204'
-        sh 'gcloud config set compute/zone asia-south1-a'
-        sh 'gcloud container clusters get-credentials standard-cluster-1'
+        sh '/var/lib/jenkins/google-cloud-sdk/bin/gcloud components update kubectl'
+        sh '/var/lib/jenkins/google-cloud-sdk/gcloud auth activate-service-account --key-file constant-crow-222204-2b2a815bdea2.json'
+        sh '/var/lib/jenkins/google-cloud-sdk/gcloud config set project constant-crow-222204'
+        sh '/var/lib/jenkins/google-cloud-sdk/gcloud config set compute/zone asia-south1-a'
+        sh '/var/lib/jenkins/google-cloud-sdk/gcloud container clusters get-credentials standard-cluster-1'
     } 
     stage('Build Docker'){
-        sh 'echo $USER'
         sh 'echo "mytempdockerpass" | docker login -u "aishwarydhare" --password-stdin'
         sh 'docker build -t aishwarydhare/hellonode .'
         sh 'docker build -t aishwarydhare/helloredis -f Dockerfile.redis .'
