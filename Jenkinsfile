@@ -15,11 +15,11 @@ node {
         sh 'docker container rm m-node-512'
         sh 'docker stop m-redis-512'
         sh 'docker container rm m-redis-512'
-        sh 'rm -rf /var/lib/jenkins/google-cloud-sdk'
+        // sh 'rm -rf /var/lib/jenkins/google-cloud-sdk'
     }
     stage('Set Up GCloud') {
-        sh 'CLOUDSDK_CORE_DISABLE_PROMPTS=1'
-        sh 'curl https://sdk.cloud.google.com | bash > /dev/null;'
+        // sh 'CLOUDSDK_CORE_DISABLE_PROMPTS=1'
+        // sh 'curl https://sdk.cloud.google.com | bash > /dev/null;'
         sh '/var/lib/jenkins/google-cloud-sdk/bin/gcloud components update kubectl'
         sh '/var/lib/jenkins/google-cloud-sdk/bin/gcloud auth activate-service-account --key-file constant-crow-222204-2b2a815bdea2.json'
         sh '/var/lib/jenkins/google-cloud-sdk/bin/gcloud config set project constant-crow-222204'
@@ -37,6 +37,7 @@ node {
     }
     stage('Deploy'){
         sh 'SHA=$(git rev-parse HEAD)'
+        sh 'echo $SHA'
         sh 'docker build -t aishwarydhare/hellonode:latest -t aishwarydhare/hellonode:$SHA .'
         sh 'docker build -t aishwarydhare/helloredis:latest -t aishwarydhare/helloredis:$SHA -f Dockerfile.redis .'
         sh 'docker push aishwarydhare/hellonode:latest'
