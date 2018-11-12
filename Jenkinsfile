@@ -54,6 +54,8 @@ node {
         sh 'docker stop m-redis-512'
         sh 'docker container rm m-redis-512'
     }
+  }catch (err) {
+    throw err
   }
 }
 
