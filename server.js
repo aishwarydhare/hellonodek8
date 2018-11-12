@@ -26,7 +26,7 @@ var handleRequest = function(request, response) {
   if(!isRedisConnected){
     str = "REDIS NOT CONNECTED.";
   }
-  response.end('Hello World! This is Node running on Kubernetes.\n\n' + str);
+  response.end('Hello k8s World! This is Node running on GKE.\n\n' + str);
 };
 var www = http.createServer(handleRequest);
 www.listen(8086);
