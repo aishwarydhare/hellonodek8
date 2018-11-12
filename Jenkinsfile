@@ -11,11 +11,15 @@ node {
         sh 'echo $USER'
     }
     stage('Pre Cleanup') {
-        sh 'docker stop m-node-512'
-        sh 'docker container rm m-node-512'
-        sh 'docker stop m-redis-512'
-        sh 'docker container rm m-redis-512'
-        // sh 'rm -rf /var/lib/jenkins/google-cloud-sdk'
+        try {
+            sh 'docker stop m-node-512'
+            sh 'docker container rm m-node-512'
+            sh 'docker stop m-redis-512'
+            sh 'docker container rm m-redis-512'
+            // sh 'rm -rf /var/lib/jenkins/google-cloud-sdk'
+        } catch(err){
+            throw err
+        }
     }
     stage('Set Up GCloud') {
         // sh 'CLOUDSDK_CORE_DISABLE_PROMPTS=1'
